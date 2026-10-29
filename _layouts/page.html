@@ -1,0 +1,18 @@
+---
+layout: default
+---
+<article class="page">
+  {% if page.title %}
+  <p class="path">~<span class="sep">/</span><span class="cur">{{ page.title | slugify }}</span></p>
+  <h1 class="post-title">{{ page.title }}</h1>
+  {% if page.date %}
+  <div class="post-meta">
+    <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y-%m-%d" }}</time>
+  </div>
+  {% endif %}
+  {% endif %}
+
+  <div class="prose">
+    {{ content }}
+  </div>
+</article>

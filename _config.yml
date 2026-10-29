@@ -1,0 +1,47 @@
+# ---------------------------------------------------------------
+# change the three lines marked CHANGE ME to your details
+# ---------------------------------------------------------------
+
+title: "sec blog"
+tagline: "notes, writeups, lab logs"
+description: "Cybersecurity writeups, CTF notes, and lab logs by Muhammad Ammarul Haq."
+author: "Muhammad Ammarul Haq"
+
+github_username: "MuhammadAmmarulHaq"
+url: "https://muhammadammarulhaq.github.io"
+baseurl: ""
+
+# looks like: ammar@sec:~$
+prompt:
+  user: "ammar"
+  host: "sec"
+
+permalink: /posts/:title/
+
+markdown: kramdown
+highlighter: rouge
+
+plugins:
+  - jekyll-feed      # builds /feed.xml
+  - jekyll-sitemap   # builds /sitemap.xml
+
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter_opts:
+    css_class: highlight
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - deploy.ps1
+  - vendor
+  - node_modules

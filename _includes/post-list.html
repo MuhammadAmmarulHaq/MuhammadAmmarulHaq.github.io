@@ -1,0 +1,10 @@
+<ul class="ls">
+  {% for post in include.posts limit: include.limit %}
+  <li>
+    <span class="perm">-rw-r--r--</span>
+    <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %d %Y" }}</time>
+    <span class="tag">{{ post.categories | first | default: "blog" }}</span>
+    <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+  </li>
+  {% endfor %}
+</ul>

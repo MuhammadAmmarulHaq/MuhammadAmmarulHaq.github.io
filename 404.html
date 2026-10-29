@@ -1,0 +1,12 @@
+---
+layout: default
+title: "404"
+permalink: /404.html
+---
+<section class="term">
+  <p class="cmd"><span class="ps1">{{ site.prompt.user }}@{{ site.prompt.host }}:~$</span> cd /page</p>
+  <p class="res err">cd: /page: No such file or directory</p>
+
+  <p class="cmd"><span class="ps1">{{ site.prompt.user }}@{{ site.prompt.host }}:~$</span> cd ~</p>
+  <p class="res"><a href="{{ '/' | relative_url }}">back to home</a></p>
+</section>

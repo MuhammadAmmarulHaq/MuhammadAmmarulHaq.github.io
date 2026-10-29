@@ -1,0 +1,12 @@
+<header class="wrap site-head">
+  <a class="prompt" href="{{ '/' | relative_url }}">
+    <span class="user">{{ site.prompt.user }}</span><span class="at">@</span><span class="host">{{ site.prompt.host }}</span><span class="cwd">:~/blog</span><span class="sigil">$</span>
+  </a>
+  <nav class="nav">
+    <a href="{{ '/' | relative_url }}" class="{% if page.url == '/' %}active{% endif %}">~/home</a>
+    <a href="{{ '/posts/' | relative_url }}" class="{% if page.url == '/posts/' %}active{% endif %}">~/posts</a>
+    <a href="{{ '/writeups/' | relative_url }}" class="{% if page.url == '/writeups/' %}active{% endif %}">~/writeups</a>
+    <a href="{{ '/about/' | relative_url }}" class="{% if page.url == '/about/' %}active{% endif %}">~/about</a>
+    <a href="{{ '/feed.xml' | relative_url }}">./rss</a>
+  </nav>
+</header>
