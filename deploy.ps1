@@ -6,6 +6,11 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+# native tools write progress and warnings to stderr, which PowerShell would treat as a
+# failure. Stderr from git and gh is normal output here, so only stop on real errors.
+if ($PSVersionTable.PSVersion.Major -ge 7) {
+  $PSNativeCommandUseErrorActionPreference = $false
+}
 Set-Location $PSScriptRoot
 
 # 1. who are we

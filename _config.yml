@@ -42,6 +42,7 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - README.md
+  - PROJECT.md
   - deploy.ps1
   - vendor
   - node_modules
