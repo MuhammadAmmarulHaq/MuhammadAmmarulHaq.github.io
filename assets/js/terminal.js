@@ -742,20 +742,10 @@
   var CHAR_MS = 34;
   var LINE_GAP = 150;
 
-  function saveSession() {
-    try {
-      sessionStorage.setItem("term-booted", "1");
-    } catch (e) {
-      /* private mode, boot every time is fine */
-    }
-  }
-
   function bootedBefore() {
-    try {
-      return sessionStorage.getItem("term-booted") === "1";
-    } catch (e) {
-      return true;
-    }
+    // the intro plays on every page load. nothing is stored between visits,
+    // so a refresh always shows the loading sequence again.
+    return false;
   }
 
   function reduceMotion() {
@@ -768,15 +758,23 @@
     }
 
     // the terminal is collapsed by default in css, so every path out of this
-    // function must be able to reveal it
-    function showTerminal() {
+    // function must be able to reveal it. animated=true plays the pop-out.
+    function showTerminal(animated) {
       bootBox.hidden = true;
       termBody.classList.add("is-visible");
       document.body.classList.add("ready");
+
+      if (animated && !reduceMotion()) {
+        // restart the pop-out animation from the top each time
+        termBody.classList.remove("is-popping");
+        // reading offsetWidth forces the browser to register the removal
+        void termBody.offsetWidth;
+        termBody.classList.add("is-popping");
+      }
     }
 
-    // already booted this session, or the visitor asked for calm: show it at once
-    if (bootedBefore() || reduceMotion()) {
+    // already booted this session: show the terminal at once
+    if (bootedBefore()) {
       showTerminal();
       return;
     }
@@ -784,6 +782,13 @@
     // type each line character by character, then hand over to the terminal
     var lineIndex = 0;
     var charIndex = 0;
+
+    // someone who asked for reduced motion still gets the loading screen, it
+    // just appears whole instead of typing out. the intro is never skipped.
+    var calm = reduceMotion();
+    var charMs = calm ? 0 : CHAR_MS;
+    var lineGap = calm ? 120 : LINE_GAP;
+    var holdBeforeHandover = calm ? 260 : 700;
 
     function step() {
       if (lineIndex >= BOOT_LINES.length) {
@@ -793,17 +798,24 @@
 
       var line = BOOT_LINES[lineIndex];
 
+      if (calm) {
+        bootPre.textContent += line + "\n";
+        lineIndex += 1;
+        window.setTimeout(step, lineGap);
+        return;
+      }
+
       if (charIndex < line.length) {
         bootPre.textContent += line.charAt(charIndex);
         charIndex += 1;
-        window.setTimeout(step, CHAR_MS);
+        window.setTimeout(step, charMs);
         return;
       }
 
       bootPre.textContent += "\n";
       lineIndex += 1;
       charIndex = 0;
-      window.setTimeout(step, LINE_GAP);
+      window.setTimeout(step, lineGap);
     }
 
     function settle() {
@@ -812,13 +824,13 @@
       bootPre.appendChild(caret);
 
       window.setTimeout(function () {
+        // handover: fade the loading screen out, then pop the terminal in
         bootBox.classList.add("is-gone");
-        showTerminal();
 
         window.setTimeout(function () {
-          saveSession();
-        }, 460);
-      }, 700);
+          showTerminal(true);
+        }, 260);
+      }, holdBeforeHandover);
     }
 
     bootBox.hidden = false;
