@@ -599,16 +599,17 @@ main {
 
 /* ---------- boot sequence ---------- */
 
+/* the loading screen and the terminal swap by display, which is instant and
+   can never be left half-applied. the fades below are decorative only: if a
+   transition never runs, the element is still fully shown or fully hidden. */
+
 .term-boot {
-  overflow: hidden;
   opacity: 1;
-  max-height: 400px;
-  transition: opacity 420ms ease, max-height 420ms ease;
+  transition: opacity 420ms ease;
 }
 
 .term-boot.is-gone {
   opacity: 0;
-  max-height: 0;
 }
 
 .term-boot[hidden] {
@@ -633,29 +634,32 @@ main {
   height: 1.05em;
   background: var(--accent);
   vertical-align: -0.16em;
+  animation: caret-blink 1060ms steps(1, end) infinite;
 }
 
-/* the terminal expands into place once the boot finishes */
+/* the terminal is hidden until the boot hands over, then displayed */
 .term-body {
-  overflow: hidden;
-  opacity: 0;
-  max-height: 0;
-  transition: opacity 520ms ease, max-height 620ms ease;
+  display: none;
 }
 
 .term-body.is-visible {
+  display: block;
   opacity: 1;
-  max-height: 4000px;
+  animation: term-fade 520ms ease;
 }
 
-/* without js the terminal is simply there, no boot, no collapse */
+@keyframes term-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* without js there is no boot, the terminal is simply present */
 .no-js .term-body {
-  opacity: 1;
-  max-height: none;
-}
-
-.no-js .term-boot {
-  display: none;
+  display: block;
 }
 
 .no-js .term-boot {
@@ -665,17 +669,18 @@ main {
 /* ---------- reduced motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
+  /* no fades, no blinking. the javascript also skips the boot entirely */
   .term-boot,
   .term-body,
-  .caret {
+  .caret,
+  .boot-caret {
     transition: none;
     animation: none;
   }
 
-  /* terminal is simply present, no boot, no blink */
-  .term-body {
+  /* the terminal is shown by the script as usual, just without motion */
+  .term-body.is-visible {
     opacity: 1;
-    max-height: none;
   }
 
   .term-boot {
