@@ -13,6 +13,6 @@
 <meta property="og:type" content="{% if page.collection == 'posts' %}article{% else %}website{% endif %}">
 <meta name="twitter:card" content="summary">
 
-<link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <link rel="alternate" type="application/atom+xml" title="{{ site.title }} feed" href="{{ '/feed.xml' | relative_url }}">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%230a0c10'/><text x='1' y='12' font-family='monospace' font-size='11' fill='%233ddc84'>%3E_</text></svg>">
