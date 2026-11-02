@@ -644,17 +644,6 @@ main {
 
 .term-body.is-visible {
   display: block;
-  opacity: 1;
-  animation: term-fade 520ms ease;
-}
-
-@keyframes term-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }
 
 /* without js there is no boot, the terminal is simply present */
