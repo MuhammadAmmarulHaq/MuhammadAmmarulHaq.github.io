@@ -20,6 +20,17 @@ title: home
     {% include post-list.html posts=site.posts limit=5 %}
 
     <p class="res dim">interactive shell. type <code>help</code> for commands, or try <code>aboutme</code>, <code>ls</code>, <code>cat aboutme</code>, <code>search pwn</code>.</p>
+
+    <p class="res dim">not sure what to type? jump straight to a section:</p>
+    <ul class="sections">
+      <li><a href="{{ '/' | relative_url }}">home</a><span class="sec-hint">this shell</span></li>
+      <li><a href="{{ '/posts/' | relative_url }}">posts</a><span class="sec-hint">every entry, newest first</span></li>
+      <li><a href="{{ '/writeups/' | relative_url }}">writeups</a><span class="sec-hint">ctf and machine walkthroughs</span></li>
+      <li><a href="{{ '/about/' | relative_url }}">about</a><span class="sec-hint">who i am, focus, links</span></li>
+      <li><a href="{{ '/feed.xml' | relative_url }}">rss</a><span class="sec-hint">subscribe in a reader</span></li>
+    </ul>
+
+    <p class="res dim">or type <code>goto posts</code>, <code>goto writeups</code>, <code>goto about</code>.</p>
   </div>
 
   <form class="term-line" id="term-form" autocomplete="off">

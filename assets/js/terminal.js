@@ -310,6 +310,8 @@
 
   var HELP = [
     ["aboutme", "who i am, my focus, my results"],
+    ["goto <section>", "jump to a page: posts, writeups, about, rss"],
+    ["sections", "list the clickable sections"],
     ["ls [dir]", "list files and posts"],
     ["cat <file>", "read a file, for example cat aboutme"],
     ["latest [n]", "newest n posts, default 5"],
@@ -488,6 +490,61 @@
     }
 
     err("cd", "no such directory: " + raw);
+  };
+
+  // navigate to a page, for people who would rather click than type
+  commands.goto = function (args) {
+    var raw = (args[0] || "").toLowerCase().replace(/^~?\/?/, "").replace(/\/$/, "");
+
+    var map = {
+      "": "/",
+      "~": "/",
+      home: "/",
+      posts: POSTS_URL,
+      blog: POSTS_URL,
+      writeups: WRITEUPS_URL,
+      about: ABOUT_URL,
+      aboutme: ABOUT_URL,
+      tags: TAGS_URL,
+      rss: "/feed.xml",
+      feed: "/feed.xml",
+      github: GITHUB_URL
+    };
+
+    if (Object.prototype.hasOwnProperty.call(map, raw) && map[raw]) {
+      window.location.href = map[raw];
+      return;
+    }
+
+    err("goto", "unknown section '" + args[0] + "'. try home, posts, writeups, about, rss");
+  };
+
+  commands.sections = function () {
+    print("sections, click or type goto <name>", "dim");
+    printPre(
+      [
+        "  " + pad("home", 12) + "this shell",
+        "  " + pad("posts", 12) + "every entry, newest first",
+        "  " + pad("writeups", 12) + "ctf and machine walkthroughs",
+        "  " + pad("about", 12) + "who i am, focus, links",
+        "  " + pad("rss", 12) + "subscribe in a reader"
+      ].join("\n")
+    );
+
+    var p = el("p", "res");
+    [
+      ["home", "/"],
+      ["posts", POSTS_URL],
+      ["writeups", WRITEUPS_URL],
+      ["about", ABOUT_URL],
+      ["rss", "/feed.xml"]
+    ].forEach(function (pair, i) {
+      if (i) p.appendChild(document.createTextNode("  "));
+      var a = el("a", null, pair[0]);
+      a.href = pair[1];
+      p.appendChild(a);
+    });
+    output.appendChild(p);
   };
 
   commands.cat = function (args) {

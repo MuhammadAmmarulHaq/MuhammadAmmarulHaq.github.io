@@ -727,6 +727,50 @@ main {
   border: 0;
 }
 
+/* ---------- clickable section menu ---------- */
+
+.sections {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 0;
+  padding: 0;
+}
+
+.sections li {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--bg-soft);
+}
+
+.sections li:hover {
+  border-color: var(--accent-dim);
+}
+
+.sections a {
+  color: var(--accent);
+  border: 0;
+}
+
+.sections a::before {
+  content: "> ";
+  color: var(--dim);
+}
+
+.sections a:hover {
+  border-bottom: 0;
+}
+
+.sections .sec-hint {
+  font-size: 11px;
+  color: var(--dim);
+}
+
 /* ---------- small screens ---------- */
 
 @media (max-width: 700px) {
