@@ -767,7 +767,17 @@
       return;
     }
 
+    // the terminal is collapsed by default in css, so every path out of this
+    // function must be able to reveal it
+    function showTerminal() {
+      bootBox.hidden = true;
+      termBody.classList.add("is-visible");
+      document.body.classList.add("ready");
+    }
+
+    // already booted this session, or the visitor asked for calm: show it at once
     if (bootedBefore() || reduceMotion()) {
+      showTerminal();
       return;
     }
 
@@ -803,11 +813,9 @@
 
       window.setTimeout(function () {
         bootBox.classList.add("is-gone");
-        termBody.classList.add("is-visible");
-        document.body.classList.add("ready");
+        showTerminal();
 
         window.setTimeout(function () {
-          bootBox.hidden = true;
           saveSession();
         }, 460);
       }, 700);
@@ -817,10 +825,10 @@
     document.body.classList.add("booting");
     termBody.classList.remove("is-visible");
 
-    // give the browser one frame to paint the empty boot pane before typing
-    window.requestAnimationFrame(function () {
-      window.setTimeout(step, 220);
-    });
+    // small delay so the empty boot pane paints before typing begins.
+    // plain timeouts only: no requestAnimationFrame, so a renderer that
+    // throttles frames can never leave the loading screen stuck.
+    window.setTimeout(step, 340);
   }
 
   runBoot();
