@@ -1,0 +1,6 @@
+{
+  "whoami": {{ site.tagline | jsonify }},
+  "aboutme": {{ site.author_bio | jsonify }},
+  "rules": {{ site.content_rules | jsonify }},
+  "readme": {{ site.readme_note | jsonify }}
+}

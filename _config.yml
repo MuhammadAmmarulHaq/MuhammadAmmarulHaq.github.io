@@ -3,9 +3,39 @@
 # ---------------------------------------------------------------
 
 title: "sec blog"
-tagline: "notes, writeups, lab logs"
-description: "Cybersecurity writeups, CTF notes, and lab logs by Muhammad Ammarul Haq."
-author: "Muhammad Ammarul Haq"
+tagline: "pwn, writeups, lab logs"
+description: "Binary exploitation writeups, CTF notes and lab logs by Ammar Haq."
+author: "Ammar Haq"
+
+# ---------- content shown by the terminal and the about page ----------
+
+author_bio: |
+  Ammar Haq. security researcher and competitive CTF player, focused on offensive
+  and low level security.
+
+  primary focus: binary exploitation (pwn). also web exploitation, penetration
+  testing and other offensive domains. i research vulnerabilities, play CTFs and
+  author custom challenges across multiple cybersecurity domains.
+
+  multiple CTF victories. blackhat '26 CTF finalist. recognized in NASA's
+  Vulnerability Disclosure Program hall of fame.
+
+  this site is where i write down the parts that took me too long to figure out.
+
+content_rules: |
+  everything published here comes from legal labs and public challenges: hack the box,
+  tryhackme, CTFs, and my own VMs.
+
+  no live third party targets. no client data. no weaponized exploits against systems
+  i do not own.
+
+  if you want something removed, open an issue on the repo.
+
+readme_note: |
+  this is a static site. jekyll builds it, github pages hosts it.
+
+  the home page is a real shell, not a picture of one. type help to see the commands.
+  every post is a markdown file in _posts/ and the source of this site is public.
 
 github_username: "MuhammadAmmarulHaq"
 url: "https://muhammadammarulhaq.github.io"

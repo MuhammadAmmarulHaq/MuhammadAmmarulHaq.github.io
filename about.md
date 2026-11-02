@@ -3,26 +3,36 @@ layout: page
 title: about
 permalink: /about/
 ---
-<p class="cmd"><span class="ps1">{{ site.prompt.user }}@{{ site.prompt.host }}:~$</span> cat whoami.txt</p>
+<p class="cmd"><span class="ps1"><span class="u">{{ site.prompt.user }}</span><span class="punct">@</span><span class="h">{{ site.prompt.host }}</span><span class="path">:~$</span></span> cat aboutme</p>
 
-Muhammad Ammarul Haq. I do offensive security in labs and write down the parts
-that took me too long to figure out.
+{{ site.author_bio }}
+
+## focus
+
+| area | detail |
+|---|---|
+| primary | binary exploitation (pwn) |
+| also | web exploitation, penetration testing, offensive security |
+| playing | competitive CTF, multiple victories, blackhat '26 finalist |
+| researching | vulnerability research and custom challenge authoring |
+| recognition | NASA Vulnerability Disclosure Program hall of fame |
+
+<p class="cmd"><span class="ps1"><span class="u">{{ site.prompt.user }}</span><span class="punct">@</span><span class="h">{{ site.prompt.host }}</span><span class="path">:~$</span></span> cat what-i-write.txt</p>
 
 Most of what lands here:
 
-- hack the box and tryhackme machine walkthroughs
-- ctf challenges, mostly web, pwn and forensics
-- notes on tooling: nmap, burp, ffuf, bloodhound, impacket
+- CTF writeups, heavily pwn, plus web, rev and forensics
+- machine walkthroughs from hack the box and tryhackme
+- notes on tooling: pwntools, gdb with pwndbg, ghidra, nmap, burp
 - things i got wrong the first time, and the fix
 
-<p class="cmd"><span class="ps1">{{ site.prompt.user }}@{{ site.prompt.host }}:~$</span> ls ~/links</p>
+<p class="cmd"><span class="ps1"><span class="u">{{ site.prompt.user }}</span><span class="punct">@</span><span class="h">{{ site.prompt.host }}</span><span class="path">:~$</span></span> ls ~/links</p>
 
-- GitHub: [github.com/MuhammadAmmarulHaq](https://github.com/MuhammadAmmarulHaq)
+- GitHub: [github.com/{{ site.github_username }}](https://github.com/{{ site.github_username }})
 - Hack The Box: [add your profile url](https://app.hackthebox.com/)
 - TryHackMe: [add your profile url](https://tryhackme.com/)
 - Email: [add your address](mailto:you@example.com)
 
-<p class="cmd"><span class="ps1">{{ site.prompt.user }}@{{ site.prompt.host }}:~$</span> cat ./rules</p>
+<p class="cmd"><span class="ps1"><span class="u">{{ site.prompt.user }}</span><span class="punct">@</span><span class="h">{{ site.prompt.host }}</span><span class="path">:~$</span></span> cat ./rules</p>
 
-Everything here is from legal labs and public challenges. No live targets,
-no client data. If you want something removed, mail me.
+{{ site.content_rules }}

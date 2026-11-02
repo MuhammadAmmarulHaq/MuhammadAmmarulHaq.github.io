@@ -101,6 +101,23 @@ a:hover {
   color: var(--blue);
 }
 
+/* prompt parts used inside the terminal, same colors as the header prompt */
+.ps1 .u {
+  color: var(--accent);
+}
+
+.ps1 .punct {
+  color: var(--dim);
+}
+
+.ps1 .h {
+  color: var(--accent);
+}
+
+.ps1 .path {
+  color: var(--blue);
+}
+
 .nav {
   display: flex;
   flex-wrap: wrap;
@@ -454,6 +471,31 @@ main {
   margin: 0 0 6px;
 }
 
+.foot-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  align-items: baseline;
+}
+
+.foot-key {
+  color: var(--fg-strong);
+}
+
+.foot-sep {
+  color: var(--line);
+}
+
+.site-foot .foot-end {
+  margin-top: 12px;
+  color: var(--dim);
+}
+
+.foot-code {
+  margin-left: 6px;
+  color: var(--accent-dim);
+}
+
 .site-foot a {
   color: var(--dim);
   border-bottom: 1px solid var(--line);
@@ -577,6 +619,37 @@ main {
 
 .term-output .dim {
   margin-top: 8px;
+}
+
+.term-output .blank {
+  height: 10px;
+}
+
+.term-output .res-text {
+  margin: 0 0 10px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--fg);
+  font: inherit;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.term-output .bin {
+  color: var(--fg-strong);
+}
+
+.term-output .ls.plain li {
+  grid-template-columns: 92px 64px 72px 1fr;
+}
+
+.term-output .ls.plain .name {
+  color: var(--dim);
+}
+
+.term-output .ls.plain a {
+  border-bottom-style: dashed;
 }
 
 .term-output pre {
