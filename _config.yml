@@ -58,6 +58,7 @@ plugins:
 kramdown:
   input: GFM
   hard_wrap: false
+  smart_quotes: ["apos", "apos", "quot", "quot"]
   syntax_highlighter_opts:
     css_class: highlight
 
