@@ -18,11 +18,8 @@ title: home
 
   <div class="term-body" id="term-body">
     <div class="term-output" id="term-output" role="log" aria-live="polite">
-      <p class="cmd"><span class="ps1"><span class="u">{{ site.prompt.user }}</span><span class="punct">@</span><span class="h">{{ site.prompt.host }}</span><span class="path">:~$</span></span> whoami</p>
-      <p class="res">{{ site.tagline }}</p>
-
-      <p class="cmd"><span class="ps1"><span class="u">{{ site.prompt.user }}</span><span class="punct">@</span><span class="h">{{ site.prompt.host }}</span><span class="path">:~$</span></span> latest</p>
-      {% include post-list.html posts=site.posts limit=5 %}
+      <p class="cmd"><span class="ps1"><span class="u">{{ site.prompt.user }}</span><span class="punct">@</span><span class="h">{{ site.prompt.host }}</span><span class="path">:~$</span></span> ls</p>
+      {% include section-list.html %}
     </div>
 
     <form class="term-line" id="term-form" autocomplete="off">

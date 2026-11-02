@@ -712,7 +712,17 @@
   // ---------- clicking files in ls output ----------
 
   output.addEventListener("click", function (event) {
-    var link = event.target.closest ? event.target.closest("a[data-file]") : null;
+    var target = event.target;
+
+    // a link that runs a command in the shell, for example cat rules
+    var cmdLink = target.closest ? target.closest("a[data-term-cmd]") : null;
+    if (cmdLink) {
+      event.preventDefault();
+      run(cmdLink.getAttribute("data-term-cmd"));
+      return;
+    }
+
+    var link = target.closest ? target.closest("a[data-file]") : null;
     if (!link) return;
 
     event.preventDefault();
