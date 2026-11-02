@@ -770,6 +770,17 @@
         // reading offsetWidth forces the browser to register the removal
         void termBody.offsetWidth;
         termBody.classList.add("is-popping");
+
+        // once it has played, drop the class so the terminal sits on its
+        // natural style. a stuck animation can then never hide it.
+        var clearPop = function () {
+          termBody.classList.remove("is-popping");
+          termBody.removeEventListener("animationend", clearPop);
+        };
+        termBody.addEventListener("animationend", clearPop);
+
+        // belt and braces: if animationend never fires, clear it anyway
+        window.setTimeout(clearPop, 700);
       }
     }
 
