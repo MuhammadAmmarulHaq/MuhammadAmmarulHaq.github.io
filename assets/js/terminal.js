@@ -10,9 +10,9 @@
   var input = document.getElementById("term-input");
   var typedEl = document.getElementById("term-typed");
 
-  var PROMPT = term.getAttribute("data-prompt") || "$";
+  var PROMPT = term.getAttribute("data-prompt") || "ammar@sec";
   var USER = PROMPT.split("@")[0] || "user";
-  var HOST = (PROMPT.split("@")[1] || "host:").split(":")[0];
+  var HOST = (PROMPT.split("@")[1] || "host").split(":")[0];
 
   var POSTS_URL = term.getAttribute("data-posts-url") || "/posts/";
   var WRITEUPS_URL = term.getAttribute("data-writeups-url") || "/writeups/";
@@ -310,8 +310,6 @@
 
   var HELP = [
     ["aboutme", "who i am, my focus, my results"],
-    ["goto <section>", "jump to a page: posts, writeups, about, rss"],
-    ["sections", "list the clickable sections"],
     ["ls [dir]", "list files and posts"],
     ["cat <file>", "read a file, for example cat aboutme"],
     ["latest [n]", "newest n posts, default 5"],
@@ -490,61 +488,6 @@
     }
 
     err("cd", "no such directory: " + raw);
-  };
-
-  // navigate to a page, for people who would rather click than type
-  commands.goto = function (args) {
-    var raw = (args[0] || "").toLowerCase().replace(/^~?\/?/, "").replace(/\/$/, "");
-
-    var map = {
-      "": "/",
-      "~": "/",
-      home: "/",
-      posts: POSTS_URL,
-      blog: POSTS_URL,
-      writeups: WRITEUPS_URL,
-      about: ABOUT_URL,
-      aboutme: ABOUT_URL,
-      tags: TAGS_URL,
-      rss: "/feed.xml",
-      feed: "/feed.xml",
-      github: GITHUB_URL
-    };
-
-    if (Object.prototype.hasOwnProperty.call(map, raw) && map[raw]) {
-      window.location.href = map[raw];
-      return;
-    }
-
-    err("goto", "unknown section '" + args[0] + "'. try home, posts, writeups, about, rss");
-  };
-
-  commands.sections = function () {
-    print("sections, click or type goto <name>", "dim");
-    printPre(
-      [
-        "  " + pad("home", 12) + "this shell",
-        "  " + pad("posts", 12) + "every entry, newest first",
-        "  " + pad("writeups", 12) + "ctf and machine walkthroughs",
-        "  " + pad("about", 12) + "who i am, focus, links",
-        "  " + pad("rss", 12) + "subscribe in a reader"
-      ].join("\n")
-    );
-
-    var p = el("p", "res");
-    [
-      ["home", "/"],
-      ["posts", POSTS_URL],
-      ["writeups", WRITEUPS_URL],
-      ["about", ABOUT_URL],
-      ["rss", "/feed.xml"]
-    ].forEach(function (pair, i) {
-      if (i) p.appendChild(document.createTextNode("  "));
-      var a = el("a", null, pair[0]);
-      a.href = pair[1];
-      p.appendChild(a);
-    });
-    output.appendChild(p);
   };
 
   commands.cat = function (args) {
@@ -778,6 +721,94 @@
     commands.cat([file]);
     scrollDown();
   });
+
+  // ---------- boot sequence ----------
+  // runs once per session, skipped for people who ask for reduced motion
+
+  var bootBox = document.getElementById("term-boot");
+  var bootPre = document.getElementById("boot-pre");
+  var termBody = document.getElementById("term-body");
+
+  var BOOT_LINES = [
+    "ammar@sec:~$ ./init --portfolio",
+    "mounting /dev/posts ......... ok",
+    "loading kernel: pwn, web, rev ",
+    "attaching shell to tty1 ..... ok",
+    "starting sec-blog ........... ready",
+    ""
+  ];
+
+  function saveSession() {
+    try {
+      sessionStorage.setItem("term-booted", "1");
+    } catch (e) {
+      /* private mode, boot every time is fine */
+    }
+  }
+
+  function bootedBefore() {
+    try {
+      return sessionStorage.getItem("term-booted") === "1";
+    } catch (e) {
+      return true;
+    }
+  }
+
+  function reduceMotion() {
+    return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  function runBoot() {
+    if (!bootBox || !bootPre || !termBody) {
+      return;
+    }
+
+    if (bootedBefore() || reduceMotion()) {
+      return;
+    }
+
+    // start the line, then reveal each line in turn, then continue into the
+    // terminal text that is already in the page
+    var i = 0;
+
+    function step() {
+      if (i < BOOT_LINES.length) {
+        bootPre.textContent += BOOT_LINES[i] + "\n";
+        i += 1;
+        window.setTimeout(step, 130);
+        return;
+      }
+
+      settle();
+    }
+
+    function settle() {
+      // reveal the inner boot line, then unfold the rest of the terminal
+      bootPre.textContent += "ammar@sec:~$ ";
+
+      var caret = document.createElement("span");
+      caret.className = "boot-caret";
+      bootPre.appendChild(caret);
+
+      window.setTimeout(function () {
+        bootBox.classList.add("is-gone");
+        termBody.classList.add("is-visible");
+        document.body.classList.add("ready");
+
+        window.setTimeout(function () {
+          bootBox.hidden = true;
+          saveSession();
+        }, 420);
+      }, 620);
+    }
+
+    bootBox.hidden = false;
+    document.body.classList.add("booting");
+    termBody.classList.remove("is-visible");
+    window.setTimeout(step, 120);
+  }
+
+  runBoot();
 
   // ---------- input ----------
 

@@ -597,6 +597,65 @@ main {
   margin: 0 0 12px;
 }
 
+/* ---------- boot sequence ---------- */
+
+.term-boot {
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 320ms ease;
+}
+
+.term-boot.is-gone {
+  opacity: 0;
+}
+
+.term-boot[hidden] {
+  display: none;
+}
+
+.boot-pre {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--dim);
+  font: inherit;
+  white-space: pre;
+  overflow: hidden;
+}
+
+.boot-caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.05em;
+  background: var(--accent);
+  vertical-align: -0.16em;
+}
+
+/* the terminal appears once the boot finishes.
+   visibility is a plain class toggle with no transition and no animation, so a
+   throttled or paused animation frame can never leave it invisible. the boot
+   text itself is what provides the motion. */
+.js .term-body {
+  display: none;
+}
+
+.js .term-body.is-visible {
+  display: block;
+}
+
+.no-js .term-boot {
+  display: none;
+}
+
+/* ---------- reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .term-boot {
+    transition: none;
+  }
+}
+
 .term-output > *:last-child {
   margin-bottom: 0;
 }
@@ -725,50 +784,6 @@ main {
   clip: rect(0 0 0 0);
   white-space: nowrap;
   border: 0;
-}
-
-/* ---------- clickable section menu ---------- */
-
-.sections {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 10px 0 0;
-  padding: 0;
-}
-
-.sections li {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  padding: 8px 12px;
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  background: var(--bg-soft);
-}
-
-.sections li:hover {
-  border-color: var(--accent-dim);
-}
-
-.sections a {
-  color: var(--accent);
-  border: 0;
-}
-
-.sections a::before {
-  content: "> ";
-  color: var(--dim);
-}
-
-.sections a:hover {
-  border-bottom: 0;
-}
-
-.sections .sec-hint {
-  font-size: 11px;
-  color: var(--dim);
 }
 
 /* ---------- small screens ---------- */
