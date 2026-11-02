@@ -738,6 +738,10 @@
     ""
   ];
 
+  // 34ms per character: fast enough to not feel slow, slow enough to read
+  var CHAR_MS = 34;
+  var LINE_GAP = 150;
+
   function saveSession() {
     try {
       sessionStorage.setItem("term-booted", "1");
@@ -767,25 +771,32 @@
       return;
     }
 
-    // start the line, then reveal each line in turn, then continue into the
-    // terminal text that is already in the page
-    var i = 0;
+    // type each line character by character, then hand over to the terminal
+    var lineIndex = 0;
+    var charIndex = 0;
 
     function step() {
-      if (i < BOOT_LINES.length) {
-        bootPre.textContent += BOOT_LINES[i] + "\n";
-        i += 1;
-        window.setTimeout(step, 130);
+      if (lineIndex >= BOOT_LINES.length) {
+        settle();
         return;
       }
 
-      settle();
+      var line = BOOT_LINES[lineIndex];
+
+      if (charIndex < line.length) {
+        bootPre.textContent += line.charAt(charIndex);
+        charIndex += 1;
+        window.setTimeout(step, CHAR_MS);
+        return;
+      }
+
+      bootPre.textContent += "\n";
+      lineIndex += 1;
+      charIndex = 0;
+      window.setTimeout(step, LINE_GAP);
     }
 
     function settle() {
-      // reveal the inner boot line, then unfold the rest of the terminal
-      bootPre.textContent += "ammar@sec:~$ ";
-
       var caret = document.createElement("span");
       caret.className = "boot-caret";
       bootPre.appendChild(caret);
@@ -798,14 +809,18 @@
         window.setTimeout(function () {
           bootBox.hidden = true;
           saveSession();
-        }, 420);
-      }, 620);
+        }, 460);
+      }, 700);
     }
 
     bootBox.hidden = false;
     document.body.classList.add("booting");
     termBody.classList.remove("is-visible");
-    window.setTimeout(step, 120);
+
+    // give the browser one frame to paint the empty boot pane before typing
+    window.requestAnimationFrame(function () {
+      window.setTimeout(step, 220);
+    });
   }
 
   runBoot();

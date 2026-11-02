@@ -12,7 +12,7 @@ title: home
          data-tags-url="{{ '/tags/' | relative_url }}"
          data-github-url="https://github.com/{{ site.github_username }}">
 
-  <div class="term-boot" id="term-boot" hidden>
+  <div class="term-boot" id="term-boot">
     <pre class="boot-pre" id="boot-pre"></pre>
   </div>
 

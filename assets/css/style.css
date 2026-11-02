@@ -602,11 +602,13 @@ main {
 .term-boot {
   overflow: hidden;
   opacity: 1;
-  transition: opacity 320ms ease;
+  max-height: 400px;
+  transition: opacity 420ms ease, max-height 420ms ease;
 }
 
 .term-boot.is-gone {
   opacity: 0;
+  max-height: 0;
 }
 
 .term-boot[hidden] {
@@ -620,7 +622,8 @@ main {
   background: none;
   color: var(--dim);
   font: inherit;
-  white-space: pre;
+  white-space: pre-wrap;
+  word-break: break-word;
   overflow: hidden;
 }
 
@@ -632,16 +635,27 @@ main {
   vertical-align: -0.16em;
 }
 
-/* the terminal appears once the boot finishes.
-   visibility is a plain class toggle with no transition and no animation, so a
-   throttled or paused animation frame can never leave it invisible. the boot
-   text itself is what provides the motion. */
-.js .term-body {
-  display: none;
+/* the terminal expands into place once the boot finishes */
+.term-body {
+  overflow: hidden;
+  opacity: 0;
+  max-height: 0;
+  transition: opacity 520ms ease, max-height 620ms ease;
 }
 
-.js .term-body.is-visible {
-  display: block;
+.term-body.is-visible {
+  opacity: 1;
+  max-height: 4000px;
+}
+
+/* without js the terminal is simply there, no boot, no collapse */
+.no-js .term-body {
+  opacity: 1;
+  max-height: none;
+}
+
+.no-js .term-boot {
+  display: none;
 }
 
 .no-js .term-boot {
@@ -651,8 +665,21 @@ main {
 /* ---------- reduced motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
-  .term-boot {
+  .term-boot,
+  .term-body,
+  .caret {
     transition: none;
+    animation: none;
+  }
+
+  /* terminal is simply present, no boot, no blink */
+  .term-body {
+    opacity: 1;
+    max-height: none;
+  }
+
+  .term-boot {
+    display: none;
   }
 }
 
@@ -751,11 +778,26 @@ main {
   display: inline-block;
   width: 0.55em;
   height: 1.05em;
-  background: var(--accent-dim);
+  background: var(--accent);
   vertical-align: -0.16em;
+  animation: caret-blink 1060ms steps(1, end) infinite;
 }
 
+@keyframes caret-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* when the terminal is focused the cursor stays solid, so typing feels direct */
 .term:focus-within .caret {
+  animation: none;
+  opacity: 1;
   background: var(--accent);
 }
 
